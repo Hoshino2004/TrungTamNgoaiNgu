@@ -6,6 +6,7 @@ import {
     sendEmailVerification,
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
+    signOut,
 } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js";
 
 // Cấu hình Firebase
@@ -81,6 +82,8 @@ if (loginForm) {
                 if (!user.emailVerified) {
                     alert("Vui lòng xác thực email trước khi đăng nhập.");
                 } else {
+                    // Lưu email vào localStorage
+                    localStorage.setItem("userEmail", user.email);
                     // Chuyển sang trang chủ
                     window.location.href = "index.html"; // Thay "index.html" bằng trang chủ của bạn
                 }
@@ -91,6 +94,8 @@ if (loginForm) {
             });
     });
 }
+
+
 
 // Xử lý quên mật khẩu
 const resetPasswordForm = document.getElementById("resetPasswordForm");
@@ -108,6 +113,26 @@ if (resetPasswordForm) {
             .catch((error) => {
                 console.error("Lỗi trong quá trình gửi email đặt lại mật khẩu:", error);
                 alert("Có lỗi xảy ra: " + error.message);
+            });
+    });
+}
+
+// Xử lý đăng xuất
+const logoutButton = document.getElementById("logoutBtn");
+if (logoutButton) {
+    logoutButton.addEventListener("click", () => {
+        signOut(auth)
+            .then(() => {
+                // Đăng xuất thành công
+                console.log("User logged out successfully.");
+
+                // Chuyển hướng về trang đăng nhập
+                window.location.href = "login.html";
+            })
+            .catch((error) => {
+                // Xử lý lỗi nếu có
+                console.error("Lỗi khi đăng xuất:", error);
+                alert("Có lỗi xảy ra khi đăng xuất: " + error.message);
             });
     });
 }
