@@ -21,6 +21,12 @@ const database = getDatabase(app);
 let studentToDeleteId = null;
 let studentToEditId = null;
 
+let currentPage = 1; // Trang hiện tại
+const studentsPerPage = 8; // Số học viên mỗi trang
+let totalStudents = 0; // Tổng số học viên
+
+let students = []; // Khai báo biến students toàn cục
+
 // Hàm tạo mã học viên ngẫu nhiên theo kiểu HV0000
 function generateStudentId() {
   const randomNum = Math.floor(10000 + Math.random() * 90000); // Tạo số ngẫu nhiên từ 10000 đến 99999
@@ -56,11 +62,17 @@ async function getStudents() {
 }
 
 // Hàm hiển thị học viên lên table
-function displayStudents(students) {
+function displayStudents(students, page = 1) {
   const tableBody = document.querySelector("#student-management tbody");
   tableBody.innerHTML = ""; // Xóa nội dung cũ
 
-  students.forEach((student) => {
+  // Tính toán các chỉ số của học viên cần hiển thị trên trang
+  const startIndex = (page - 1) * studentsPerPage;
+  const endIndex = Math.min(startIndex + studentsPerPage, students.length);
+
+  // Hiển thị học viên theo trang
+  for (let i = startIndex; i < endIndex; i++) {
+    const student = students[i];
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${student.MaHocVien}</td>
@@ -73,10 +85,34 @@ function displayStudents(students) {
       </td>
     `;
     tableBody.appendChild(row);
-  });
+  }
 
   addDeleteEventListeners(); // Gán sự kiện cho nút "Xóa"
   addEditEventListeners();   // Gán sự kiện cho nút "Sửa"
+
+  // Cập nhật thông tin phân trang
+  document.getElementById("pageInfo").textContent = `Trang ${page} / ${Math.ceil(totalStudents / studentsPerPage)}`;
+  // Gọi hàm này sau khi hiển thị học viên
+  updatePagination();
+}
+
+document.getElementById("prevPage").addEventListener("click", function () {
+  if (currentPage > 1) {
+    currentPage--;
+    displayStudents(Object.values(students), currentPage);
+  }
+});
+
+document.getElementById("nextPage").addEventListener("click", function () {
+  if (currentPage * studentsPerPage < totalStudents) {
+    currentPage++;
+    displayStudents(Object.values(students), currentPage);
+  }
+});
+
+function updatePagination() {
+  document.getElementById("prevPage").disabled = currentPage === 1;
+  document.getElementById("nextPage").disabled = currentPage * studentsPerPage >= totalStudents;
 }
 
 // Hàm ghi dữ liệu vào Firebase
@@ -85,6 +121,8 @@ async function addStudent(student) {
   try {
     await set(dbRef, student);
     console.log("Student added successfully");
+    // Sau khi thêm thành công, gọi lại hàm hiển thị
+    displayStudents(students, currentPage); // Cập nhật lại danh sách học viên
   } catch (error) {
     console.error("Error adding student: ", error);
   }
@@ -103,11 +141,17 @@ async function updateStudent(studentId, updatedData) {
 
 // Hàm khởi tạo
 async function init() {
-  const students = await getStudents();
-  if (students) {
-    displayStudents(Object.values(students)); // Chuyển Object thành Array
+  const studentsData = await getStudents();
+  if (studentsData) {
+    students = Object.values(studentsData); // Lưu trữ học viên vào biến toàn cục
+    totalStudents = students.length; // Cập nhật tổng số học viên
+    displayStudents(students, currentPage); // Hiển thị trang đầu tiên
+  } else {
+    totalStudents = 0; // Nếu không có học viên, đặt totalStudents về 0
   }
 }
+
+
 
 // Hàm để gán sự kiện cho các nút "Xóa"
 function addDeleteEventListeners() {
@@ -181,6 +225,13 @@ document.querySelector(".cancel-btn").addEventListener("click", function () {
   document.getElementById("studentModal").style.display = "none"; // Đóng modal
 });
 
+// Nút "Hủy" trong modal xóa
+document.getElementById("cancelDeleteBtn").addEventListener("click", function () {
+  document.getElementById("deleteModal").style.display = "none"; // Đóng modal xác nhận xóa
+  studentToDeleteId = null; // Đặt lại biến để không xóa học viên
+});
+
+
 // Sự kiện khi modal thêm hoặc sửa học viên được gửi
 document.querySelector(".modal-form").addEventListener("submit", async function (event) {
   event.preventDefault(); // Ngăn không cho reload trang
@@ -235,5 +286,46 @@ document.addEventListener("DOMContentLoaded", function () {
     studentToEditId = null; // Đảm bảo không ở trạng thái chỉnh sửa
   });
 });
+
+// Đóng modal khi click bên ngoài modal
+window.addEventListener("click", function (event) {
+  const studentModal = document.getElementById("studentModal");
+  const deleteModal = document.getElementById("deleteModal");
+
+  if (event.target === studentModal) {
+    studentModal.style.display = "none";
+  }
+
+  if (event.target === deleteModal) {
+    deleteModal.style.display = "none";
+  }
+});
+
+// Hàm tìm kiếm học viên theo tên
+async function searchStudents(keyword) {
+  const students = await getStudents();
+  if (!students) return;
+
+  const filteredStudents = Object.values(students).filter(student =>
+    student.HoVaTen.toLowerCase().includes(keyword.toLowerCase()) // Tìm kiếm theo tên
+  );
+
+  totalStudents = filteredStudents.length; // Cập nhật totalStudents
+  currentPage = 1; // Quay lại trang đầu tiên sau khi tìm kiếm
+  displayStudents(filteredStudents, currentPage); // Hiển thị học viên đã lọc
+}
+
+// Lắng nghe sự kiện tìm kiếm
+document.getElementById('searchBtn').addEventListener('click', function () {
+  const keyword = document.getElementById('searchInput').value;
+  if (keyword.trim() === "") {
+    init(); // Nếu không nhập gì thì hiển thị lại toàn bộ học viên
+  } else {
+    searchStudents(keyword);
+  }
+});
+
+
+
 
 

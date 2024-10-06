@@ -12,7 +12,7 @@
   <div class="container">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <h2>NextStep English</h2>
+      <h2>TingAoLit</h2>
       <!-- Hiển thị thông tin người dùng đăng nhập -->
       <div class="user-profile">
         <img src="../img/avatar.jpg" alt="Avatar" class="avatar">
@@ -23,8 +23,8 @@
       <nav>
         <ul>
           <li><a href="#student-management">Quản lý học viên</a></li>
-          <li><a href="#teacher-management">Quản lý giáo viên</a></li>
           <li><a href="#class-management">Quản lý lớp học</a></li>
+          <li><a href="#teacher-management">Quản lý giáo viên</a></li>
           <li><a href="#course-management">Quản lý khóa học</a></li>
           <li><a href="#finance-management">Quản lý tài chính</a></li>
           <li><a href="#user-management">Quản lý người dùng</a></li>
@@ -35,14 +35,19 @@
     <!-- Main Content -->
     <main class="main-content">
       <header>
-        <h1>Hệ thống quản lý</h1>
       </header>
 
       <!-- Section: Student Management -->
       <section id="student-management" class="management-section">
         <h2>Quản lý học viên</h2>
-        <button id="openModalBtn" class="add-btn">Thêm học viên</button>
-
+        <div class="header-tools">
+          <button id="openModalBtn" class="add-btn">Thêm học viên</button>
+          <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Nhập họ và tên học viên">
+            <button class="search-btn" id="searchBtn">Tìm kiếm</button>
+          </div>
+        </div>
+        
         <!-- Modal -->
         <div id="studentModal" class="modal">
           <!-- Modal content -->
@@ -52,15 +57,15 @@
             <form class="modal-form">
               <div class="form-group">
                 <label for="studentName">Họ và tên</label>
-                <input type="text" id="studentName" name="studentName" placeholder="Nhập họ và tên">
+                <input type="text" id="studentName" name="studentName" placeholder="Nhập họ và tên" required>
               </div>
               <div class="form-group">
                 <label for="studentEmail">Email</label>
-                <input type="email" id="studentEmail" name="studentEmail" placeholder="Nhập email">
+                <input type="email" id="studentEmail" name="studentEmail" placeholder="Nhập email" required>
               </div>
               <div class="form-group">
                 <label for="studentClass">Lớp học</label>
-                <input type="text" id="studentClass" name="studentClass" placeholder="Nhập tên lớp">
+                <input type="text" id="studentClass" name="studentClass" placeholder="Nhập tên lớp" required>
               </div>
               <div class="modal-footer">
                 <button type="submit" id="modalSubmitBtn" class="submit-btn">Thêm học viên</button>
@@ -100,155 +105,20 @@
 
           </tbody>
         </table>
-      </section>
 
-      <!-- Các phần quản lý khác giữ nguyên -->
-      <!-- Section: Teacher Management -->
-      <section id="teacher-management" class="management-section">
-        <h2>Quản lý giáo viên</h2>
-        <button class="add-btn">Thêm giáo viên</button>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Họ và tên</th>
-              <th>Email</th>
-              <th>Chuyên môn</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Trần Văn B</td>
-              <td>b@example.com</td>
-              <td>Tiếng Anh Giao tiếp</td>
-              <td>
-                <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- Section: Class Management -->
-      <section id="class-management" class="management-section">
-        <h2>Quản lý lớp học</h2>
-        <button class="add-btn">Thêm lớp học</button>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tên lớp</th>
-              <th>Giáo viên phụ trách</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Tiếng Anh A1</td>
-              <td>Trần Văn B</td>
-              <td>
-                <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- Section: Course Management -->
-      <section id="course-management" class="management-section">
-        <h2>Quản lý khóa học</h2>
-        <button class="add-btn">Thêm khóa học</button>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tên khóa học</th>
-              <th>Thời gian</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>TOEIC 500+</td>
-              <td>12 tuần</td>
-              <td>
-                <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- Section: Finance Management -->
-      <section id="finance-management" class="management-section">
-        <h2>Quản lý tài chính</h2>
-        <button class="add-btn">Thêm khoản thu</button>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Học viên</th>
-              <th>Số tiền</th>
-              <th>Trạng thái</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Nguyễn Văn A</td>
-              <td>2,000,000 VND</td>
-              <td>Đã thanh toán</td>
-              <td>
-                <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- Section: User Management -->
-      <section id="user-management" class="management-section">
-        <h2>Quản lý người dùng</h2>
-        <button class="add-btn">Thêm người dùng</button>
-        <table>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tên người dùng</th>
-              <th>Email</th>
-              <th>Quyền hạn</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>Admin</td>
-              <td>admin@example.com</td>
-              <td>Quản trị viên</td>
-              <td>
-                <button class="edit-btn">Sửa</button>
-                <button class="delete-btn">Xóa</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="pagination">
+          <button id="prevPage">Trước</button>
+          <span id="pageInfo"></span>
+          <button id="nextPage">Sau</button>
+        </div>
+        
       </section>
     </main>
   </div>
 
   <script type="module" src="../js/firebase-auth.js"></script>
-  <script type="module" src="../js/index.js"></script>
   <script type="module" src="../js/firebase-realtime.js"></script>
+  <script type="module" src="../js/index.js"></script>
 
 </body>
 
