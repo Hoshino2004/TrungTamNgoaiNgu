@@ -175,11 +175,6 @@ table tbody td {
   background-color: #c0392b;
 }
 
-/* Ẩn các section khi cần */
-.management-section {
-  display: none; /* Ẩn tất cả các section mặc định */
-}
-
 .active {
   display: block; /* Hiển thị khi có lớp active */
 }
@@ -408,5 +403,45 @@ table tbody td {
 #pagination #pageInfo {
   margin: 0 10px;
 }
+
+/* CSS Spinner */
+#studentClass {
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px; /* Bo tròn góc */
+  border: 1px solid #ccc; /* Đường viền */
+  background-color: #f9f9f9; /* Màu nền nhạt */
+  color: #333; /* Màu chữ */
+  appearance: none; /* Ẩn mũi tên mặc định của trình duyệt */
+  -webkit-appearance: none; /* Cho các trình duyệt webkit */
+  -moz-appearance: none; /* Cho Firefox */
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"%3E%3Cpath fill="%23666" d="M2 0L0 2h4zM2 5L0 3h4z"/%3E%3C/svg%3E');
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 12px 12px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Hiệu ứng khi hover */
+}
+
+#studentClass:focus {
+  border-color: #4CAF50; /* Đổi màu viền khi focus */
+  box-shadow: 0px 4px 6px rgba(0, 150, 0, 0.2); /* Đổ bóng khi focus */
+  outline: none; /* Ẩn đường viền mặc định khi focus */
+}
+
+/* Đặt chiều cao cho spinner nhỏ hơn trên các thiết bị nhỏ */
+@media (max-width: 600px) {
+  #studentClass {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+/* Căn chỉnh mũi tên spinner */
+select::-ms-expand {
+  display: none; /* Ẩn mũi tên mặc định trên IE */
+}
+
 
 

@@ -75,15 +75,15 @@ function displayStudents(students, page = 1) {
     const student = students[i];
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${student.MaHocVien}</td>
-      <td>${student.HoVaTen}</td>
-      <td>${student.Email}</td>
-      <td>${student.LopHoc}</td>
-      <td>
-        <button class="edit-btn">Sửa</button>
-        <button class="delete-btn">Xóa</button>
-      </td>
-    `;
+    <td>${student.MaHocVien}</td>
+    <td>${student.HoVaTen}</td>
+    <td>${student.Email}</td>
+    <td>${student.LopHoc}</td>
+    <td>
+      <button class="edit-btn">Sửa</button>
+      <button class="delete-btn">Xóa</button>
+    </td>
+  `;
     tableBody.appendChild(row);
   }
 
@@ -175,9 +175,13 @@ function addEditEventListeners() {
 
       if (snapshot.exists()) {
         const student = snapshot.val();
+
         // Điền thông tin vào các input trong modal
         document.getElementById("studentName").value = student.HoVaTen;
         document.getElementById("studentEmail").value = student.Email;
+
+        // Gọi hàm để điền dữ liệu vào spinner và chọn lớp hiện tại
+        await populateClassSpinner();
         document.getElementById("studentClass").value = student.LopHoc;
 
         // Cập nhật tiêu đề và nút trong modal cho chế độ sửa
@@ -189,6 +193,7 @@ function addEditEventListeners() {
       }
     });
   });
+
 }
 
 // Xử lý xác nhận xóa
@@ -282,9 +287,11 @@ document.addEventListener("DOMContentLoaded", function () {
     // Đặt lại các giá trị input trong modal
     document.getElementById("studentName").value = "";
     document.getElementById("studentEmail").value = "";
-    document.getElementById("studentClass").value = "";
     studentToEditId = null; // Đảm bảo không ở trạng thái chỉnh sửa
   });
+
+  // Gọi hàm để điền dữ liệu vào spinner
+  populateClassSpinner();
 });
 
 // Đóng modal khi click bên ngoài modal
@@ -324,6 +331,34 @@ document.getElementById('searchBtn').addEventListener('click', function () {
     searchStudents(keyword);
   }
 });
+
+// Hàm lấy danh sách lớp học từ Firebase và hiển thị vào spinner
+async function populateClassSpinner() {
+  const dbRef = ref(database);
+  try {
+    const snapshot = await get(child(dbRef, 'Class'));
+    if (snapshot.exists()) {
+      const classes = snapshot.val();
+      const classSelect = document.getElementById("studentClass");
+      classSelect.innerHTML = ""; // Xóa các tùy chọn hiện có
+
+      // Thêm các lớp học vào spinner
+      Object.values(classes).forEach(cls => {
+        const option = document.createElement("option");
+        option.value = cls.TenLopHoc; // Giá trị là tên lớp học
+        option.textContent = cls.TenLopHoc; // Hiển thị tên lớp học
+        classSelect.appendChild(option);
+      });
+    } else {
+      console.log("No class data available");
+    }
+  } catch (error) {
+    console.error("Error fetching classes: ", error);
+  }
+}
+
+
+
 
 
 
