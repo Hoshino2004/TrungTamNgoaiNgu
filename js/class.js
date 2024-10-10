@@ -61,10 +61,35 @@ async function getClasses() {
   }
 }
 
+// Hàm đếm số lượng học viên trong từng lớp học
+async function countStudentsByClass() {
+  const dbRef = ref(database);
+  const snapshot = await get(child(dbRef, 'Student'));
+  if (snapshot.exists()) {
+    const students = snapshot.val();
+    const classCounts = {};
+
+    // Duyệt qua từng học viên và đếm số lượng theo lớp học
+    Object.values(students).forEach(student => {
+      const className = student.LopHoc;
+      if (!classCounts[className]) {
+        classCounts[className] = 0;
+      }
+      classCounts[className]++;
+    });
+
+    return classCounts; // Trả về object chứa số lượng học viên theo lớp
+  }
+  return {};
+}
+
 // Hàm hiển thị học viên lên table
-function displayClasses(classes, page = 1) {
+async function displayClasses(classes, page = 1) {
   const tableBody = document.querySelector("#class-management tbody");
   tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+  // Lấy số lượng học viên theo từng lớp học
+  const classCounts = await countStudentsByClass();
 
   // Tính toán các chỉ số của học viên cần hiển thị trên trang
   const startIndex = (page - 1) * classesPerPage;
@@ -73,12 +98,13 @@ function displayClasses(classes, page = 1) {
   // Hiển thị học viên theo trang
   for (let i = startIndex; i < endIndex; i++) {
     const classN = classes[i];
+    const studentCount = classCounts[classN.TenLopHoc] || 0; // Lấy số lượng học viên từ classCounts
     const row = document.createElement("tr");
     row.innerHTML = `
     <td>${classN.MaLopHoc}</td>
     <td>${classN.TenLopHoc}</td>
     <td>${classN.GiangVien}</td>
-    <td>${classN.SoLuongHocVien}</td>
+    <td>${studentCount}</td>
     <td>
       <button class="edit-btn">Sửa</button>
       <button class="delete-btn">Xóa</button>
@@ -139,6 +165,30 @@ async function updateClass(classId, updatedData) {
   }
 }
 
+// Hàm đếm số lượng học viên trong từng lớp học và cập nhật vào Firebase
+async function updateStudentCountInFirebase() {
+  const classCounts = await countStudentsByClass(); // Đếm số lượng học viên theo lớp
+
+  // Lấy danh sách lớp học từ Firebase
+  const dbRef = ref(database);
+  const classSnapshot = await get(child(dbRef, 'Class'));
+
+  if (classSnapshot.exists()) {
+    const classes = classSnapshot.val();
+
+    // Duyệt qua từng lớp và cập nhật số lượng học viên
+    for (const classId in classes) {
+      const classData = classes[classId];
+      const studentCount = classCounts[classData.TenLopHoc] || 0; // Số lượng học viên của lớp
+
+      // Cập nhật dữ liệu lớp học với số lượng học viên mới
+      await updateClass(classId, { ...classData, SoLuongHocVien: studentCount });
+    }
+
+    console.log("Updated student counts in Firebase");
+  }
+}
+
 // Hàm khởi tạo
 async function init() {
   const classesData = await getClasses();
@@ -178,7 +228,6 @@ function addEditEventListeners() {
         // Điền thông tin vào các input trong modal
         document.getElementById("className").value = classN.TenLopHoc;
         document.getElementById("classTeacher").value = classN.GiangVien;
-        document.getElementById("classStudentCount").value = classN.SoLuongHocVien;
 
         // Cập nhật tiêu đề và nút trong modal cho chế độ sửa
         document.getElementById("modalTitle").textContent = "Sửa thông tin lớp học";
@@ -238,14 +287,12 @@ document.querySelector(".modal-form").addEventListener("submit", async function 
 
   const className = document.getElementById("className").value;
   const classTeacher = document.getElementById("classTeacher").value;
-  const classStudentCount = document.getElementById("classStudentCount").value;
 
   if (classToEditId) {
     // Nếu đang chỉnh sửa học viên
     const updatedClass = {
       TenLopHoc: className,
       GiangVien: classTeacher,
-      SoLuongHocVien: classStudentCount,
     };
     await updateClass(classToEditId, updatedClass); // Cập nhật dữ liệu
   } else {
@@ -259,7 +306,7 @@ document.querySelector(".modal-form").addEventListener("submit", async function 
       MaLopHoc: newClassId,
       TenLopHoc: className,
       GiangVien: classTeacher,
-      SoLuongHocVien: classStudentCount,
+      SoLuongHocVien: 0,
     };
 
     await addClass(newClass); // Ghi dữ liệu vào Firebase
@@ -270,8 +317,9 @@ document.querySelector(".modal-form").addEventListener("submit", async function 
 });
 
 // Khởi chạy khi trang đã tải
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
   init();
+  await updateStudentCountInFirebase(); // Cập nhật số lượng học viên lên Firebase sau khi hiển thị
 
   // Gán sự kiện cho nút "Thêm học viên"
   document.getElementById("openModalBtn").addEventListener("click", function () {
@@ -324,6 +372,8 @@ document.getElementById('searchBtn').addEventListener('click', function () {
     searchClasses(keyword);
   }
 });
+
+
 
 
 
