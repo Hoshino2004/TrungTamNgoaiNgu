@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý Lớp Học</title>
+  <title>Quản lý Giáo viên</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -13,19 +13,17 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <h2>TingAoLit</h2>
-      <!-- Hiển thị thông tin người dùng đăng nhập -->
       <div class="user-profile">
         <img src="../img/avatar.jpg" alt="Avatar" class="avatar">
         <p>Xin chào, <span id="userName" class="user-name">Nguyễn Văn A</span></p>
         <button class="logout-btn" id="logoutBtn">Đăng xuất</button>
       </div>
-
       <nav>
         <ul>
           <li><a href="index.html">Quản lý học viên</a></li>
           <li><a href="class.html">Quản lý lớp học</a></li>
-          <li><a href="teacher.html">Quản lý giáo viên</a></li> 
-          <li><a href="course.html">Quản lý khóa học</a></li> 
+          <li><a href="teacher.html">Quản lý giáo viên</a></li>
+          <li><a href="course.html">Quản lý khóa học</a></li>
           <li><a href="#finance-management">Quản lý tài chính</a></li>
           <li><a href="#user-management">Quản lý người dùng</a></li>
         </ul>
@@ -34,32 +32,32 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <section id="class-management" class="management-section">
-        <h2>Quản lý lớp học</h2>
+      <section id="teacher-management" class="management-section">
+        <h2>Quản lý giáo viên</h2>
         <div class="header-tools">
-          <button id="openModalBtn" class="add-btn">Thêm lớp học</button>
+          <button id="openTeacherModalBtn" class="add-btn">Thêm giáo viên</button>
           <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="Nhập tên lớp học">
-            <button class="search-btn" id="searchBtn">Tìm kiếm</button>
+            <input type="text" class="search-input" id="searchTeacherInput" placeholder="Nhập tên giáo viên">
+            <button class="search-btn" id="searchTeacherBtn">Tìm kiếm</button>
           </div>
         </div>
 
-        <!-- Modal -->
-        <div id="classModal" class="modal">
+        <!-- Modal Thêm Giáo Viên -->
+        <div id="teacherModal" class="modal">
           <div class="modal-content">
             <span class="close">&times;</span>
-            <h2 id="modalTitle">Thêm lớp học mới</h2>
+            <h2>Thêm giáo viên mới</h2>
             <form class="modal-form">
               <div class="form-group">
-                <label for="className">Tên lớp học</label>
-                <input type="text" id="className" name="className" placeholder="Nhập tên lớp học" required>
+                <label for="teacherName">Tên giáo viên</label>
+                <input type="text" id="teacherName" name="teacherName" placeholder="Nhập tên giáo viên" required>
               </div>
               <div class="form-group">
-                <label for="classTeacher">Giảng viên</label>
-                <input type="text" id="classTeacher" name="classTeacher" placeholder="Nhập tên giảng viên" required>
+                <label for="teacherEmail">Email giáo viên</label>
+                <input type="email" id="teacherEmail" name="teacherEmail" placeholder="Nhập email giáo viên" required>
               </div>
               <div class="modal-footer">
-                <button type="submit" id="modalSubmitBtn" class="submit-btn">Thêm lớp học</button>
+                <button type="submit" class="submit-btn">Thêm giáo viên</button>
                 <button type="button" class="cancel-btn">Hủy</button>
               </div>
             </form>
@@ -69,30 +67,29 @@
         <table>
           <thead>
             <tr>
-              <th>Mã lớp học</th>
-              <th>Tên lớp học</th>
-              <th>Giảng viên</th>
-              <th>Số lượng học viên</th>
+              <th>Mã giáo viên</th>
+              <th>Tên giáo viên</th>
+              <th>Email</th>
               <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Nội dung sẽ được điền tự động -->
+            <!-- Dữ liệu sẽ được điền tự động -->
           </tbody>
         </table>
 
         <div id="pagination">
-          <button id="prevPage">Trước</button>
-          <span id="pageInfo"></span>
-          <button id="nextPage">Sau</button>
-        </div>
-
+            <button id="prevPage">Trước</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">Sau</button>
+          </div>
       </section>
     </main>
   </div>
 
+  <!-- Scripts -->
   <script type="module" src="../js/firebase-auth.js"></script>
-  <script type="module" src="../js/class.js"></script>
+  <script type="module" src="../js/teacher.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("userName").textContent = localStorage.getItem("userEmail") || "Nguyễn Văn A";
