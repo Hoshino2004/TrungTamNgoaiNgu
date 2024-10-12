@@ -37,40 +37,40 @@
       <header>
       </header>
 
-      <!-- Section: Student Management -->
-      <section id="student-management" class="management-section">
-        <h2>Quản lý học viên</h2>
+      <!-- Section: Teacher Management -->
+      <section id="teacher-management" class="management-section">
+        <h2>Quản lý giảng viên</h2>
         <div class="header-tools">
-          <button id="openModalBtn" class="add-btn">Thêm học viên</button>
+          <button id="openModalBtn" class="add-btn">Thêm giảng viên</button>
           <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="Nhập họ và tên học viên">
+            <input type="text" class="search-input" id="searchInput" placeholder="Nhập tên giảng viên">
             <button class="search-btn" id="searchBtn">Tìm kiếm</button>
           </div>
         </div>
 
         <!-- Modal -->
-        <div id="studentModal" class="modal">
+        <div id="teacherModal" class="modal">
           <!-- Modal content -->
           <div class="modal-content">
             <span class="close">&times;</span>
-            <h2 id="modalTitle">Thêm học viên mới</h2> <!-- Thẻ tiêu đề có id để thay đổi -->
+            <h2 id="modalTitle">Thêm giảng viên mới</h2> <!-- Thẻ tiêu đề có id để thay đổi -->
             <form class="modal-form">
               <div class="form-group">
-                <label for="studentName">Họ và tên</label>
-                <input type="text" id="studentName" name="studentName" placeholder="Nhập họ và tên" required>
+                <label for="teacherName">Tên giảng viên</label>
+                <input type="text" id="teacherName" name="teacherName" placeholder="Nhập tên giảng viên" required>
               </div>
               <div class="form-group">
-                <label for="studentEmail">Email</label>
-                <input type="email" id="studentEmail" name="studentEmail" placeholder="Nhập email" required>
+                <label for="teacherPhone">Số điện thoại</label>
+                <input type="number" id="teacherPhone" name="teacherPhone" placeholder="Nhập số điện thoại" required>
               </div>
+
               <div class="form-group">
-                <label for="studentClass">Lớp học</label>
-                <select id="studentClass" class="spinner" required>
-                  <!-- Các lớp học sẽ được thêm vào đây bằng JavaScript -->
-                </select>
+                <label for="teacherEmail">Email</label>
+                <input type="email" id="teacherEmail" name="teacherEmail" placeholder="Nhập email" required>
               </div>
+
               <div class="modal-footer">
-                <button type="submit" id="modalSubmitBtn" class="submit-btn">Thêm học viên</button>
+                <button type="submit" id="modalSubmitBtn" class="submit-btn">Thêm lớp học</button>
                 <!-- Nút này sẽ thay đổi -->
                 <button type="button" class="cancel-btn">Hủy</button>
               </div>
@@ -78,13 +78,12 @@
           </div>
         </div>
 
-
         <!-- Modal Xác Nhận Xóa -->
         <div id="deleteModal" class="delete-modal">
           <div class="delete-modal-content">
             <span class="close" id="closeDeleteModal">&times;</span>
-            <h2>Xóa Học Viên</h2>
-            <p>Bạn có chắc chắn muốn xóa học viên này không?</p>
+            <h2>Xóa giảng viên</h2>
+            <p>Bạn có chắc chắn muốn xóa giảng viên này không?</p>
             <div class="delete-modal-footer">
               <button class="confirm-delete-btn" id="confirmDeleteBtn">Xóa</button>
               <button class="cancel-delete-btn" id="cancelDeleteBtn">Hủy</button>
@@ -92,19 +91,18 @@
           </div>
         </div>
 
-
         <table>
           <thead>
             <tr>
-              <th>Mã học viên</th>
-              <th>Họ và tên</th>
+              <th>Mã giảng viên</th>
+              <th>Tên giảng viên</th>
+              <th>Số điện thoại</th>
               <th>Email</th>
-              <th>Lớp học</th>
               <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
-
+            <!-- Nội dung sẽ được điền tự động -->
           </tbody>
         </table>
 
@@ -120,7 +118,7 @@
   </div>
 
   <script type="module" src="../js/firebase-auth.js"></script>
-  <script type="module" src="../js/student.js"></script>
+  <script type="module" src="../js/teacher.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("userName").textContent = localStorage.getItem("userEmail") || "Nguyễn Văn A";

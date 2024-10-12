@@ -1,6 +1,6 @@
 // Import Firebase app và các module cần thiết
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
-import { getDatabase, ref, get, child, set, remove, update } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
+import { getDatabase, ref, onValue, get, child, set, remove, update } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 
 // Cấu hình Firebase
 const firebaseConfig = {
@@ -73,6 +73,7 @@ function displayStudents(students, page = 1) {
   // Hiển thị học viên theo trang
   for (let i = startIndex; i < endIndex; i++) {
     const student = students[i];
+    
     const row = document.createElement("tr");
     row.innerHTML = `
     <td>${student.MaHocVien}</td>

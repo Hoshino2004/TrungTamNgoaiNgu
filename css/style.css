@@ -405,7 +405,7 @@ table tbody td {
 }
 
 /* CSS Spinner */
-#studentClass {
+.spinner {
   width: 100%; /* Chiếm toàn bộ chiều rộng */
   padding: 10px 15px;
   font-size: 16px;
@@ -424,7 +424,7 @@ table tbody td {
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Hiệu ứng khi hover */
 }
 
-#studentClass:focus {
+.spinner:focus {
   border-color: #4CAF50; /* Đổi màu viền khi focus */
   box-shadow: 0px 4px 6px rgba(0, 150, 0, 0.2); /* Đổ bóng khi focus */
   outline: none; /* Ẩn đường viền mặc định khi focus */
@@ -432,7 +432,7 @@ table tbody td {
 
 /* Đặt chiều cao cho spinner nhỏ hơn trên các thiết bị nhỏ */
 @media (max-width: 600px) {
-  #studentClass {
+  .spinner {
     padding: 8px 12px;
     font-size: 14px;
   }

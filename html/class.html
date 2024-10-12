@@ -24,7 +24,7 @@
         <ul>
           <li><a href="index.html">Quản lý học viên</a></li>
           <li><a href="class.html">Quản lý lớp học</a></li>
-          <li><a href="#teacher-management">Quản lý giáo viên</a></li>
+          <li><a href="teacher.html">Quản lý giảng viên</a></li>
           <li><a href="#course-management">Quản lý khóa học</a></li>
           <li><a href="#finance-management">Quản lý tài chính</a></li>
           <li><a href="#user-management">Quản lý người dùng</a></li>
@@ -61,7 +61,9 @@
               </div>
               <div class="form-group">
                 <label for="classTeacher">Giảng viên</label>
-                <input type="text" id="classTeacher" name="classTeacher" placeholder="Nhập tên giảng viên" required>
+                <select id="classTeacher" class="spinner" required>
+                  <!-- Các giảng viên sẽ được thêm vào đây bằng JavaScript -->
+                </select>
               </div>
               <div class="modal-footer">
                 <button type="submit" id="modalSubmitBtn" class="submit-btn">Thêm lớp học</button>

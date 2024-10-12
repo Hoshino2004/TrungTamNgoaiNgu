@@ -227,6 +227,8 @@ function addEditEventListeners() {
         const classN = snapshot.val();
         // Điền thông tin vào các input trong modal
         document.getElementById("className").value = classN.TenLopHoc;
+
+        await populateTeacherSpinner();
         document.getElementById("classTeacher").value = classN.GiangVien;
 
         // Cập nhật tiêu đề và nút trong modal cho chế độ sửa
@@ -329,10 +331,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Đặt lại các giá trị input trong modal
     document.getElementById("className").value = "";
-    document.getElementById("classTeacher").value = "";
     document.getElementById("classStudentCount").value = "";
     classToEditId = null; // Đảm bảo không ở trạng thái chỉnh sửa
   });
+  populateTeacherSpinner();
 });
 
 // Đóng modal khi click bên ngoài modal
@@ -372,6 +374,31 @@ document.getElementById('searchBtn').addEventListener('click', function () {
     searchClasses(keyword);
   }
 });
+
+// Hàm lấy danh sách lớp học từ Firebase và hiển thị vào spinner
+async function populateTeacherSpinner() {
+  const dbRef = ref(database);
+  try {
+    const snapshot = await get(child(dbRef, 'Teacher'));
+    if (snapshot.exists()) {
+      const teachers = snapshot.val();
+      const teacherSelect = document.getElementById("classTeacher");
+      teacherSelect.innerHTML = ""; // Xóa các tùy chọn hiện có
+
+      // Thêm các lớp học vào spinner
+      Object.values(teachers).forEach(teacher => {
+        const option = document.createElement("option");
+        option.value = teacher.HoVaTen; // Giá trị là tên lớp học
+        option.textContent = teacher.HoVaTen; // Hiển thị tên lớp học
+        teacherSelect.appendChild(option);
+      });
+    } else {
+      console.log("No class data available");
+    }
+  } catch (error) {
+    console.error("Error fetching teachers: ", error);
+  }
+}
 
 
 
