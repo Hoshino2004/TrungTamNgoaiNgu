@@ -24,7 +24,7 @@
         <ul>
           <li><a href="index.html">Quản lý học viên</a></li>
           <li><a href="class.html">Quản lý lớp học</a></li>
-          <li><a href="teacher.html">Quản lý giáo viên</a></li> 
+          <li><a href="teacher.html">Quản lý giảng viên</a></li> 
           <li><a href="course.html">Quản lý khóa học</a></li> 
           <li><a href="#finance-management">Quản lý tài chính</a></li>
           <li><a href="#user-management">Quản lý người dùng</a></li>
@@ -67,6 +67,20 @@
             </form>
           </div>
         </div>
+
+        <!-- Modal Xác Nhận Xóa -->
+        <div id="deleteModal" class="delete-modal">
+          <div class="delete-modal-content">
+            <span class="close" id="closeDeleteModal">&times;</span>
+            <h2>Xóa giảng viên</h2>
+            <p>Bạn có chắc chắn muốn xóa giảng viên này không?</p>
+            <div class="delete-modal-footer">
+              <button class="confirm-delete-btn" id="confirmDeleteBtn">Xóa</button>
+              <button class="cancel-delete-btn" id="cancelDeleteBtn">Hủy</button>
+            </div>
+          </div>
+        </div>
+
 
         <table>
           <thead>
