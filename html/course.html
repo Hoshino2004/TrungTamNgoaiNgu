@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản lý Khóa học</title>
+  <title>LATES</title>
   <link rel="stylesheet" href="../css/style.css">
 </head>
 
@@ -12,12 +12,14 @@
   <div class="container">
     <!-- Sidebar -->
     <aside class="sidebar">
-      <h2>TingAoLit</h2>
+      <h2>LATES</h2>
+      <!-- Hiển thị thông tin người dùng đăng nhập -->
       <div class="user-profile">
         <img src="../img/avatar.jpg" alt="Avatar" class="avatar">
         <p>Xin chào, <span id="userName" class="user-name">Nguyễn Văn A</span></p>
         <button class="logout-btn" id="logoutBtn">Đăng xuất</button>
       </div>
+
       <nav>
         <ul>
           <li><a href="index.html">Quản lý học viên</a></li>
@@ -32,37 +34,64 @@
 
     <!-- Main Content -->
     <main class="main-content">
+      <header>
+      </header>
+
+      <!-- Section: Student Management -->
       <section id="course-management" class="management-section">
         <h2>Quản lý khóa học</h2>
         <div class="header-tools">
-          <button id="openCourseModalBtn" class="add-btn">Thêm khóa học</button>
+          <button id="openModalBtn" class="add-btn">Thêm khóa học</button>
           <div class="search-container">
-            <input type="text" class="search-input" id="searchCourseInput" placeholder="Nhập tên khóa học">
-            <button class="search-btn" id="searchCourseBtn">Tìm kiếm</button>
+            <input type="text" class="search-input" id="searchInput" placeholder="Nhập tên khóa học">
+            <button class="search-btn" id="searchBtn">Tìm kiếm</button>
           </div>
         </div>
 
-        <!-- Modal Thêm Khóa Học -->
+        <!-- Modal -->
         <div id="courseModal" class="modal">
+          <!-- Modal content -->
           <div class="modal-content">
             <span class="close">&times;</span>
-            <h2>Thêm khóa học mới</h2>
+            <h2 id="modalTitle">Thêm khóa học mới</h2> <!-- Thẻ tiêu đề có id để thay đổi -->
             <form class="modal-form">
               <div class="form-group">
                 <label for="courseName">Tên khóa học</label>
-                <input type="text" id="courseName" name="courseName" placeholder="Nhập tên khóa học" required>
+                <input type="text" id="courseName" name="courseName" placeholder="Nhập khóa học" required>
               </div>
               <div class="form-group">
-                <label for="courseDuration">Thời lượng khóa học</label>
-                <input type="text" id="courseDuration" name="courseDuration" placeholder="Nhập thời lượng khóa học" required>
+                <label for="courseDuration">Thời lượng</label>
+                <input type="number" id="courseDuration" name="courseDuration" placeholder="Nhập thời lượng" required>
+              </div>
+              <div class="form-group">
+                <label for="courseTeacher">Giảng viên phụ trách</label>
+                <select id="courseTeacher" class="spinner" required>
+                  <!-- Các lớp học sẽ được thêm vào đây bằng JavaScript -->
+                </select>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="submit-btn">Thêm khóa học</button>
+                <button type="submit" id="modalSubmitBtn" class="submit-btn">Thêm khóa học</button>
+                <!-- Nút này sẽ thay đổi -->
                 <button type="button" class="cancel-btn">Hủy</button>
               </div>
             </form>
           </div>
         </div>
+
+
+        <!-- Modal Xác Nhận Xóa -->
+        <div id="deleteModal" class="delete-modal">
+          <div class="delete-modal-content">
+            <span class="close" id="closeDeleteModal">&times;</span>
+            <h2>Xóa khóa học</h2>
+            <p>Bạn có chắc chắn muốn xóa khóa học này không?</p>
+            <div class="delete-modal-footer">
+              <button class="confirm-delete-btn" id="confirmDeleteBtn">Xóa</button>
+              <button class="cancel-delete-btn" id="cancelDeleteBtn">Hủy</button>
+            </div>
+          </div>
+        </div>
+
 
         <table>
           <thead>
@@ -70,11 +99,12 @@
               <th>Mã khóa học</th>
               <th>Tên khóa học</th>
               <th>Thời lượng</th>
+              <th>Giảng viên phụ trách</th>
               <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Dữ liệu sẽ được điền tự động -->
+
           </tbody>
         </table>
 
@@ -83,11 +113,12 @@
           <span id="pageInfo"></span>
           <button id="nextPage">Sau</button>
         </div>
+
       </section>
+
     </main>
   </div>
 
-  <!-- Scripts -->
   <script type="module" src="../js/firebase-auth.js"></script>
   <script type="module" src="../js/course.js"></script>
   <script>
@@ -95,5 +126,7 @@
       document.getElementById("userName").textContent = localStorage.getItem("userEmail") || "Nguyễn Văn A";
     });
   </script>
+
 </body>
+
 </html>
