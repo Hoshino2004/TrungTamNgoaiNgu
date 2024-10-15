@@ -1,5 +1,6 @@
 // Import Firebase Authentication và Firebase App
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js";
+import { getDatabase, ref, get, child, set, remove, update } from "https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js";
 import {
     getAuth,
     createUserWithEmailAndPassword,
@@ -22,12 +23,30 @@ const firebaseConfig = {
 
 // Khởi tạo Firebase
 const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 const auth = getAuth(app);
+
+// Hàm tạo mã học viên ngẫu nhiên theo kiểu HV0000
+function generateUserId() {
+    const randomNum = Math.floor(10000 + Math.random() * 90000); // Tạo số ngẫu nhiên từ 10000 đến 99999
+    return `ND${randomNum.toString().slice(-4)}`; // Trả về mã học viên
+}
+
+// Hàm kiểm tra mã học viên đã tồn tại
+async function isUserIdExists(userId) {
+    const dbRef = ref(database);
+    const snapshot = await get(child(dbRef, 'User'));
+    if (snapshot.exists()) {
+        const users = snapshot.val();
+        return Object.values(users).some(user => user.MaNguoiDung === userId); // Kiểm tra mã học viên
+    }
+    return false;
+}
 
 // Xử lý đăng ký
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
-    registerForm.addEventListener("submit", (e) => {
+    registerForm.addEventListener("submit", async (e) => {
         e.preventDefault(); // Ngăn việc submit form truyền thống
 
         const email = document.getElementById("email").value;
@@ -40,6 +59,12 @@ if (registerForm) {
             return;
         }
 
+        let newUserId;
+
+        do {
+            newUserId = generateUserId(); // Tạo mã học viên mới
+        } while (await isUserIdExists(newUserId)); // Kiểm tra mã học viên đã tồn tại chưa
+
         // Đăng ký người dùng bằng email và password
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -50,6 +75,14 @@ if (registerForm) {
                 sendEmailVerification(user)
                     .then(() => {
                         alert("Đăng ký thành công! Vui lòng kiểm tra email của bạn để xác thực.");
+
+                        // const userId = user.uid; // Lấy ID người dùng
+                        set(ref(database, 'User/' + newUserId), {
+                            MaNguoiDung: newUserId,
+                            Email: email,
+                            Password: password,
+                            Role: 'Quản trị viên',
+                        })
                     })
                     .catch((error) => {
                         console.error("Lỗi khi gửi email xác thực:", error);
@@ -77,7 +110,7 @@ if (loginForm) {
             .then((userCredential) => {
                 const user = userCredential.user;
                 console.log("User logged in:", user);
-                
+
                 // Kiểm tra xác thực email
                 if (!user.emailVerified) {
                     alert("Vui lòng xác thực email trước khi đăng nhập.");
@@ -136,4 +169,6 @@ if (logoutButton) {
             });
     });
 }
+
+
 

@@ -73,7 +73,7 @@ function displayStudents(students, page = 1) {
   // Hiển thị học viên theo trang
   for (let i = startIndex; i < endIndex; i++) {
     const student = students[i];
-    
+
     const row = document.createElement("tr");
     row.innerHTML = `
     <td>${student.MaHocVien}</td>
@@ -85,6 +85,13 @@ function displayStudents(students, page = 1) {
       <button class="delete-btn">Xóa</button>
     </td>
   `;
+    // Thêm sự kiện click vào hàng để chuyển đến trang chi tiết học viên
+    row.addEventListener("click", function () {
+      if (!event.target.classList.contains('edit-btn') && !event.target.classList.contains('delete-btn')) {
+
+        window.location.href = `student-detail.html?id=${student.MaHocVien}`;
+      }
+    });
     tableBody.appendChild(row);
   }
 
@@ -357,6 +364,8 @@ async function populateClassSpinner() {
     console.error("Error fetching classes: ", error);
   }
 }
+
+
 
 
 

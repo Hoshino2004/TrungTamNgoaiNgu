@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <!-- Thêm Font Awesome từ CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -15,19 +16,21 @@
         }
 
         input[type="text"] {
-    width: 100%;
-    padding: 10px 40px 10px 10px; /* Padding tương tự như cho input password */
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    transition: border-color 0.3s;
-    min-width: 300px; /* Đặt kích thước tối thiểu cho input */
-}
+            width: 100%;
+            padding: 10px 40px 10px 10px;
+            /* Padding tương tự như cho input password */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            min-width: 300px;
+            /* Đặt kích thước tối thiểu cho input */
+        }
 
-input[type="text"]:focus {
-    border-color: #007BFF;
-    outline: none;
-}
+        input[type="text"]:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
 
 
         body {
@@ -66,24 +69,31 @@ input[type="text"]:focus {
             margin-bottom: 20px;
         }
 
-        input[type="email"], input[type="password"] {
+        input[type="email"],
+        input[type="password"] {
             width: 100%;
-            padding: 10px 40px 10px 10px; /* Thêm padding bên phải để không chồng lên icon */
+            padding: 10px 40px 10px 10px;
+            /* Thêm padding bên phải để không chồng lên icon */
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 16px;
             transition: border-color 0.3s;
-            min-width: 300px; /* Đặt kích thước tối thiểu cho input */
+            min-width: 300px;
+            /* Đặt kích thước tối thiểu cho input */
         }
 
-        input[type="email"]:focus, input[type="password"]:focus {
+        input[type="email"]:focus,
+        input[type="password"]:focus {
             border-color: #007BFF;
             outline: none;
         }
-        input[type="password"].active, input[type="text"].active {
-        border-color: #007BFF; /* Đảm bảo border vẫn giữ */
-        outline: none;
-    }
+
+        input[type="password"].active,
+        input[type="text"].active {
+            border-color: #007BFF;
+            /* Đảm bảo border vẫn giữ */
+            outline: none;
+        }
 
         .eye-icon {
             position: absolute;
@@ -93,7 +103,8 @@ input[type="text"]:focus {
             cursor: pointer;
             font-size: 20px;
             color: #999;
-            pointer-events: auto; /* Đảm bảo icon có thể nhấp */
+            pointer-events: auto;
+            /* Đảm bảo icon có thể nhấp */
         }
 
         .eye-icon:hover {
@@ -130,17 +141,18 @@ input[type="text"]:focus {
         a:hover {
             color: #0056b3;
         }
-        body {
-    background: linear-gradient(135deg, #1e1e3f, #5c5c8a, #a46eaf, #f3c3c3);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-}
 
+        body {
+            background: linear-gradient(135deg, #1e1e3f, #5c5c8a, #a46eaf, #f3c3c3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
     </style>
 </head>
+
 <body>
 
     <div class="register-container">
@@ -172,7 +184,7 @@ input[type="text"]:focus {
         const togglePassword = document.getElementById('togglePassword');
         const passwordField = document.getElementById('password');
 
-        togglePassword.addEventListener('click', function() {
+        togglePassword.addEventListener('click', function () {
             const type = passwordField.type === 'password' ? 'text' : 'password';
             passwordField.type = type;
             this.classList.toggle('fa-eye');
@@ -182,7 +194,7 @@ input[type="text"]:focus {
         const togglePassword2 = document.getElementById('togglePassword2');
         const confirmPasswordField = document.getElementById('confirmPassword');
 
-        togglePassword2.addEventListener('click', function() {
+        togglePassword2.addEventListener('click', function () {
             const type = confirmPasswordField.type === 'password' ? 'text' : 'password';
             confirmPasswordField.type = type;
             this.classList.toggle('fa-eye');
@@ -190,4 +202,5 @@ input[type="text"]:focus {
         });
     </script>
 </body>
+
 </html>

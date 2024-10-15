@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết học viên</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- Thêm SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <h2>LATES</h2>
+            <!-- Hiển thị thông tin người dùng đăng nhập -->
+            <div class="user-profile">
+                <img src="../img/avatar.jpg" alt="Avatar" class="avatar">
+                <p>Xin chào, <span id="userName" class="user-name">Nguyễn Văn A</span></p>
+                <button class="logout-btn" id="logoutBtn">Đăng xuất</button>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="index.html">Quản lý học viên</a></li>
+                    <li><a href="class.html">Quản lý lớp học</a></li>
+                    <li><a href="teacher.html">Quản lý giảng viên</a></li>
+                    <li><a href="course.html">Quản lý khóa học</a></li>
+                    <li><a href="#finance-management">Quản lý tài chính</a></li>
+                    <li><a href="user.html">Quản lý người dùng</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header>
+            </header>
+
+            <!-- Section: Student Management -->
+            <section id="student-management" class="management-section">
+                <div>
+                    <h1>Thông tin chi tiết học viên</h1>
+                    <div>
+                        <p><strong>Mã học viên:</strong> <span id="studentId"></span></p>
+                        <p><strong>Họ và tên:</strong> <span id="studentName"></span></p>
+                        <p><strong>Email:</strong> <span id="studentEmail"></span></p>
+                        <p><strong>Lớp học:</strong> <span id="studentClass"></span></p>
+                        <p>Điểm giữa kỳ: <span id="midterm"></span></p>
+                        <p>Điểm cuối kỳ: <span id="finalterm"></span></p>
+                        <p>Xếp loại: <span id="xeploai"></span></p>
+
+                        <!-- Form cập nhật đánh giá -->
+                        <!-- <h3>Cập nhật đánh giá:</h3>
+            <label for="newMidterm">Điểm giữa kỳ:</label>
+            <input type="number" id="newMidterm" min="0" max="" required/><br />
+            <label for="newFinalterm">Điểm cuối kỳ:</label>
+            <input type="number" id="newFinalterm" /><br />
+            <label for="newXeploai">Xếp loại:</label>
+            <input type="text" id="newXeploai" /><br /> -->
+                        <button id="updateButton">Cập nhật</button>
+
+                    </div>
+
+                    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+                    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-database.js"></script>
+                    <!-- Thêm thư viện SweetAlert2 -->
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+                    <script type="module" src="../js/student-detail.js"></script>
+
+                    <script type="module" src="../js/firebase-auth.js"></script>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", () => {
+                            document.getElementById("userName").textContent = localStorage.getItem("userEmail") || "Nguyễn Văn A";
+                        });
+                    </script>
+                </div>
+
+            </section>
+
+
+</body>
+
+</html>
